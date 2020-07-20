@@ -8,7 +8,7 @@ class Person extends React.Component {
 
 		return (
 			<div className='box col-md-3 col-6'>
-				<Icon name='directions_walk' />
+				<Icon name='directions_walk' color={this.props.person} />
 				<h5 className='mb-3'>
 					{this.props.steps}
 					{this.props.unit}
