@@ -10,10 +10,6 @@ const MIN_HEART = 80;
 const MAX_HEART = 180;
 const MIN_STEPS = 0;
 const MAX_STEPS = 50000;
-// const genre = {
-// 	man: 'blue',
-// 	women: 'pink',
-// };
 
 class App extends React.Component {
 	constructor(props) {
@@ -29,53 +25,22 @@ class App extends React.Component {
 	}
 
 	onHeartChange = (val) => {
-		this.setState({ heart: val });
-		if (val > 120) {
-			this.calculateWater(val, 0.0008, 'heart');
-		}
-	};
+		const water = this.calculateWater();
 
-	calculateWater = (value, amount, str) => {
-		if (str === 'heart') {
-			if (value - this.state.heart > 0) {
-				this.setState({ water: this.state.water + amount });
-			}
-			if (value - this.state.heart < 0) {
-				this.setState({ water: this.state.water - amount });
-			}
-		}
-
-		if (str === 'temperature') {
-			if (value - this.state.temperature > 0) {
-				this.setState({ water: this.state.water + amount });
-			}
-			if (value - this.state.temperature < 0) {
-				this.setState({ water: this.state.water - amount });
-			}
-		}
-
-		if (str === 'steps') {
-			if (value - this.state.steps > 0) {
-				this.setState({ water: this.state.water + amount });
-			}
-			if (value - this.state.steps < 0) {
-				this.setState({ water: this.state.water - amount });
-			}
-		}
+		this.setState({ heart: val, water });
 	};
 
 	onTempChange = (val) => {
-		this.setState({ temperature: val });
-		if (val > 20) {
-			this.calculateWater(val, 0.02, 'temperature');
+		const water = this.calculateWater();
+		this.setState({ temperature: val, water });
+		if (this.state.temperature > 0) {
 		}
 	};
 
 	onStepChange = (val) => {
-		this.setState({ steps: val });
-		if (val > 10000) {
-			this.calculateWater(val, 0.002, 'steps');
-		}
+		const water = this.calculateWater();
+
+		this.setState({ steps: val, water });
 	};
 
 	onClickChange = () => {
@@ -85,6 +50,27 @@ class App extends React.Component {
 		if (this.state.person === 'red') {
 			this.setState({ person: 'blue', sexe: 'Man' });
 		}
+	};
+
+	calculateWater = () => {
+		const { steps, heart, temperature } = this.state;
+
+		let needWaterBySteps = 0;
+		let needWaterByBat = 0;
+		let needWaterByTem = 0;
+		if (steps > 10000) {
+			needWaterBySteps = (steps - 10000) * 0.00002;
+		}
+		if (heart > 120) {
+			needWaterByBat = (heart - 120) * 0.0008;
+		}
+		if (temperature > 20) {
+			needWaterByTem = (temperature - 20) * 0.02;
+		}
+
+		return Number(
+			1.5 + needWaterBySteps + needWaterByBat + needWaterByTem
+		).toFixed(2);
 	};
 
 	render() {
@@ -98,7 +84,7 @@ class App extends React.Component {
 				/>
 
 				<div className='row'>
-					<Water water={this.state.water.toFixed(2)} unit='L' />
+					<Water water={this.state.water} unit='L' />
 					<Person
 						min={MIN_STEPS}
 						steps={this.state.steps}

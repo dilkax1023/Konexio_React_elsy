@@ -1,18 +1,21 @@
 import React from 'react';
 import Icon from '../components/core/Icon';
 import Slider from '../components/core/Slider';
+import ChangeSteps from './ChangeSteps';
 
 class Person extends React.Component {
+	onClickModify = (val) => {
+		this.props.onChange(val);
+	};
+
 	render() {
-		const { min, max, steps, onChange } = this.props;
+		const { min, max, onChange, steps, person } = this.props;
 
 		return (
 			<div className='box col-md-3 col-6'>
-				<Icon name='directions_walk' color={this.props.person} />
-				<h5 className='mb-3'>
-					{this.props.steps}
-					{this.props.unit}
-				</h5>
+				<ChangeSteps steps={steps} onClickModify={this.onClickModify} />
+				<Icon name='directions_walk' color={person} />
+				<h5 className='mb-3'>{steps}</h5>
 				<Slider min={min} max={max} value={steps} onChange={onChange} />
 			</div>
 		);
@@ -20,26 +23,3 @@ class Person extends React.Component {
 }
 
 export default Person;
-/**
- <div className='box col-md-3 col-6'>
-					<span
-						style={{ fontSize: '100px', color: 'black' }}
-						className='material-icons'>
-						invert_colors
-					</span>
-				</div>
-				<div className='box col-md-3 col-6'>
-					<span
-						style={{ fontSize: '100px', color: 'black' }}
-						className='material-icons'>
-						favorite
-					</span>
-				</div>
-				<div className='box col-md-3 col-6'>
-					<span
-						style={{ fontSize: '100px', color: 'black' }}
-						className='material-icons'>
-						wb_sunny
-					</span>
-				</div>
- */

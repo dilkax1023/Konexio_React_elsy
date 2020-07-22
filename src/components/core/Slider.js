@@ -12,21 +12,15 @@ class Slider extends React.Component {
 		};
 	}
 
-	onSliderChange = (value) => {
-		this.setState({
-			value,
-		});
-		this.props.onChange(this.state.value);
-	};
-
 	render() {
+		const { min, max, value, onChange } = this.props;
 		return (
 			<div>
 				<SliderWithTooltip
-					min={this.props.min}
-					max={this.props.max}
-					value={this.props.value}
-					onChange={this.onSliderChange}
+					min={min}
+					max={max}
+					value={value}
+					onChange={onChange}
 				/>
 			</div>
 		);

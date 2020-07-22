@@ -27,3 +27,11 @@ body {
 	top: 2rem;
 	left: 2rem;
 }
+
+.winter {
+	background-color: #3a85ff;
+}
+
+.summer {
+	background-color: #ffe83a;
+}
